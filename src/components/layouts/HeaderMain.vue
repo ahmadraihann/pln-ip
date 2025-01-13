@@ -26,7 +26,8 @@ const logout = () => {
         <div class="user-info">
           <p>User : superadmin@gmail.com</p>
         </div>
-        <button class="menu-button-title">Combustion Inspection</button>
+        <button class="menu-button" @click="router.push('/')">Location</button>
+        <button class="menu-button active">Combustion Inspection</button>
         <button class="sign-out-button" @click="logout">Sign Out</button>
       </div>
     </div>
@@ -45,9 +46,11 @@ const logout = () => {
       .user-info
         @apply w-[300px] py-2 bg-buttonGray mr-[-22px] text-center
         clip-path: polygon(7.5% 0, 100% 0, 92.5% 100%, 0% 100%)
-      .menu-button-title
-        @apply px-6 py-2 bg-cyan-500 w-[300px] mr-[-22px]
+      .menu-button
+        @apply px-6 py-2 bg-buttonGray w-[300px] mr-[-22px]
         clip-path: polygon(7.5% 0, 100% 0, 92.5% 100%, 0% 100%)
+        &:hover
+          @apply bg-cyan-500
       .active
         @apply bg-cyan-500
       .sign-out-button

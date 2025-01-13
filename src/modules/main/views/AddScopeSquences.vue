@@ -4,7 +4,6 @@ import { onMounted, onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import eventBus from "@/utils/eventBus";
-import { Breadcrumb } from "@/components";
 import { useGlobalStore } from "@/stores/GlobalStore";
 import { convertToKebabCase, convertToOriginalFormat } from "@/helpers/global";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
@@ -28,17 +27,7 @@ const section = [
 
 const router = useRouter();
 const route = useRoute();
-const globalStore = useGlobalStore();
-const {
-  titleHeader,
-  disabledNext,
-  disabledBack,
-  isFinish,
-  isAddScope,
-  isStepNavigation,
-} = storeToRefs(globalStore);
 
-const breadcrumb = ref<BreadcrumbType[]>([]);
 const currentVideoIndex = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
 const isVideoEnded = ref(false);
@@ -111,90 +100,40 @@ const handleMouseLeave = () => {
   }
 };
 
-const handleBack = () => {
-  router.push(
-    `/${route.params.id}/create/unit/${route.params.scope}/ci/squences?video=27`
-  );
-};
-
 const toSection = (name: string) => {
   router.push(
-    `/${route.params.id}/create/unit/${
-      route.params.scope
-    }/add-scope/${convertToKebabCase(name)}`
+    `/${route.params.id}/create/unit/${route.params.scope}/${
+      route.params.menu
+    }/add-scope-squences/${convertToKebabCase(name)}`
   );
 };
-
-onMounted(() => {
-  breadcrumb.value = [
-    {
-      name: "UBP Priok",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: convertToOriginalFormat(route.params.scope as string),
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "Scope Overhaul",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "CI",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "Add Scope",
-      as_link: false,
-      url: "",
-    },
-  ];
-  titleHeader.value = "Add Scope";
-
-  isFinish.value = false;
-  isAddScope.value = false;
-  disabledNext.value = true;
-  disabledBack.value = false;
-  isStepNavigation.value = false;
-
-  eventBus.on("back", handleBack);
-});
-
-onUnmounted(() => {
-  eventBus.off("back", handleBack);
-});
 </script>
 
 <template>
-  <div class="scope-container">
-    <div class="scope-breadcrumb">
-      <Breadcrumb :items="breadcrumb" />
-    </div>
-    <div class="scope-video-container">
-      <video
-        ref="videoRef"
-        :src="videos[currentVideoIndex]"
-        class="scope-video"
-        @loadedmetadata="handleFirstVideoLoad"
-        @ended="handleVideoEnd"
-        autoplay
-        muted
-        playsinline
-      ></video>
-      <div class="add-scope-ci">
-        <button
-          v-for="(item, key) in section"
-          :key="key"
-          @mouseover="handleMouseOver(key)"
-          @mouseleave="handleMouseLeave"
-          @click="toSection(item)"
-        >
-          {{ item }}
-        </button>
+  <div class="fixed top-0 right-0 bottom-0 left-0 z-[1] bg-white">
+    <div class="scope-container">
+      <div class="scope-video-container">
+        <video
+          ref="videoRef"
+          :src="videos[currentVideoIndex]"
+          class="scope-video"
+          @loadedmetadata="handleFirstVideoLoad"
+          @ended="handleVideoEnd"
+          autoplay
+          muted
+          playsinline
+        ></video>
+        <div class="add-scope-ci">
+          <button
+            v-for="(item, key) in section"
+            :key="key"
+            @mouseover="handleMouseOver(key)"
+            @mouseleave="handleMouseLeave"
+            @click="toSection(item)"
+          >
+            {{ item }}
+          </button>
+        </div>
       </div>
     </div>
   </div>

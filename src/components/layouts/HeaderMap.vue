@@ -26,7 +26,7 @@ const logout = () => {
           <p>User : superadmin@gmail.com</p>
         </div>
         <button class="menu-button">UBH</button>
-        <button class="menu-button active">Home</button>
+        <button class="menu-button active">Location</button>
         <button class="menu-button">Timeline OH</button>
         <button class="menu-button">Report</button>
         <button class="sign-out-button" @click="logout">Sign Out</button>

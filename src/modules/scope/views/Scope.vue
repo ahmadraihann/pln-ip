@@ -4,6 +4,8 @@ import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 
 import Home0 from "@/assets/videos/home/0-homepage.mp4";
+import Home1 from "@/assets/videos/home/1-homepage.mp4";
+import Home2 from "@/assets/videos/home/2-homepage.mp4";
 
 import { useGlobalStore } from "@/stores/GlobalStore";
 import { Breadcrumb } from "@/components";
@@ -11,7 +13,7 @@ import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
 import eventBus from "@/utils/eventBus";
 
-const videos = [Home0, Home0, Home0];
+const videos = [Home0, Home1, Home2];
 const scope = [
   { label: "Combustion Inspection", url: "ci" },
   { label: "Turbine Inspection", url: "ti" },
@@ -129,8 +131,42 @@ const handleMouseLeave = () => {
 };
 
 const toScope = (url: string) => {
-  console.log(url);
   // router.push(`${route.path}/${url}`);
+  if (scopeSelected.value !== "" && url !== scopeSelected.value) {
+    isRewinding.value = true;
+    rewindInterval = setInterval(async () => {
+      if (videoRef.value) {
+        videoRef.value.currentTime -= 0.1;
+        if (videoRef.value.currentTime <= 0) {
+          clearInterval(rewindInterval || undefined);
+
+          const findIndex = scope.findIndex((item) => item.url === url);
+          currentVideoIndex.value = findIndex;
+          if (videoRef.value) {
+            try {
+              videoRef.value.src = videos[currentVideoIndex.value];
+              await videoRef.value.load();
+
+              if (videoRef.value.readyState >= 3) {
+                await videoRef.value.play();
+              } else {
+                videoRef.value.addEventListener(
+                  "canplay",
+                  async () => {
+                    await videoRef.value?.play();
+                  },
+                  { once: true }
+                );
+              }
+            } catch (err) {
+              console.error("Error playing video:", err);
+            }
+          }
+        }
+      }
+    }, 30);
+  }
+
   scopeSelected.value = url;
 };
 
@@ -201,24 +237,87 @@ onUnmounted(() => {
           {{ item.label }}
         </button>
       </div>
-      <div
-        v-show="scopeSelected === 'ci'"
-        id="scope-menu"
-        class="scope-button-menus"
-      >
-        <button class="scope-button-menus--button">Squances</button>
+      <div v-show="scopeSelected" id="scope-menu" class="scope-button-menus">
         <button
           class="scope-button-menus--button"
-          @click="() => router.push(`${route.path}/scope`)"
+          @click="() => router.push(`${route.path}/${scopeSelected}/squences`)"
+        >
+          Squances
+        </button>
+        <button
+          class="scope-button-menus--button"
+          @click="
+            () =>
+              router.push(
+                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/scope`
+              )
+          "
         >
           Scope
         </button>
-        <button class="scope-button-menus--button">IK</button>
-        <button class="scope-button-menus--button">Consmat</button>
-        <button class="scope-button-menus--button">Manpower</button>
-        <button class="scope-button-menus--button">Part</button>
-        <button class="scope-button-menus--button">HSE</button>
-        <button class="scope-button-menus--button-last">Add Scope</button>
+        <button
+          class="scope-button-menus--button"
+          @click="
+            () =>
+              router.push(
+                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/work-instruction`
+              )
+          "
+        >
+          IK
+        </button>
+        <button
+          class="scope-button-menus--button"
+          @click="
+            () =>
+              router.push(
+                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/consumable-material`
+              )
+          "
+        >
+          Consmat
+        </button>
+        <button
+          class="scope-button-menus--button"
+          @click="
+            () =>
+              router.push(
+                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/manpower`
+              )
+          "
+        >
+          Manpower
+        </button>
+        <button
+          class="scope-button-menus--button"
+          @click="
+            () =>
+              router.push(
+                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/part`
+              )
+          "
+        >
+          Part
+        </button>
+        <button
+          class="scope-button-menus--button"
+          @click="
+            () =>
+              router.push(
+                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/hse`
+              )
+          "
+        >
+          HSE
+        </button>
+        <button
+          class="scope-button-menus--button-last"
+          @click="
+            () => router.push(`${route.path}/${scopeSelected}/work-instruction`)
+          "
+        >
+          Add Scope
+        </button>
       </div>
       <!-- <div class="scope-button-home-2">
         <button>Exhaust Section</button>

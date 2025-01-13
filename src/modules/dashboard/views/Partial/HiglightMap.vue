@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { markerData, colorMarker } from '@/constants'
+import { markerData, colorMarker } from "@/constants";
 
 const router = useRouter();
 
@@ -36,7 +36,9 @@ const chartOptions = ref<Record<string, any>>({
     useHTML: true, // Menggunakan HTML untuk kustomisasi
     // pointFormat: '<b class="text-md">{point.name}</b>', // Format isi tooltip
     formatter: function () {
-      return this.series.name == "Lokasi" ? `<strong>${this.point.name}</strong>` : false; // Menampilkan nama marker saat di-hover
+      return this.series.name == "Lokasi"
+        ? `<strong>${this.point.name}</strong>`
+        : false; // Menampilkan nama marker saat di-hover
     },
   },
   series: [
@@ -45,7 +47,7 @@ const chartOptions = ref<Record<string, any>>({
       enableMouseTracking: false,
       states: {
         hover: {
-          enable: false
+          enable: false,
         },
       },
       dataLabels: {
@@ -73,26 +75,24 @@ const chartOptions = ref<Record<string, any>>({
            */
           mouseOver: function () {
             // Zoom ke region yang di-hover
-
           },
           mouseOut: function () {
             // Reset zoom saat mouse keluar
-
-          }
+          },
         },
       },
     },
     {
       // Seri untuk marker atau poin yang ditambahkan
-      type: 'mappoint',
-      name: 'Lokasi',
+      type: "mappoint",
+      name: "Lokasi",
       dataLabels: {
         enabled: false, // Data label tidak ditampilkan secara default
       },
       data: markerData,
       marker: {
         radius: 6, // Ukuran marker
-        symbol: 'circle', // Bentuk marker
+        symbol: "circle", // Bentuk marker
       },
       point: {
         events: {
@@ -105,7 +105,7 @@ const chartOptions = ref<Record<string, any>>({
           },
         },
       },
-    }
+    },
   ],
 });
 
@@ -135,16 +135,16 @@ async function loadMapData() {
           ].includes(item.properties.state)
             ? "#0070c0"
             : [
-              "Kalimantan Timur",
-              "Papua",
-              "Maluku Utara",
-              "Sulawesi Selatan",
-              "Riau",
-              "Lampung",
-              "Nusa Tenggara Timur",
-            ].includes(item.properties.state)
-              ? "#00B0F0"
-              : "#2AB6C0",
+                "Kalimantan Timur",
+                "Papua",
+                "Maluku Utara",
+                "Sulawesi Selatan",
+                "Riau",
+                "Lampung",
+                "Nusa Tenggara Timur",
+              ].includes(item.properties.state)
+            ? "#00B0F0"
+            : "#2AB6C0",
           name: item.properties.state,
         };
       }
@@ -172,8 +172,15 @@ onMounted(() => {
         UNIT PEMBANGKIT PT PLN INDONESIA POWER
       </p>
     </div>
-    <highcharts :constructorType="'mapChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
-    <div class="absolute z-50 pointer-events-none bottom-10 left-10 text-[#2AB6C0] max-w-[400px]">
+    <highcharts
+      :constructorType="'mapChart'"
+      class="hc"
+      :options="chartOptions"
+      ref="chart"
+    ></highcharts>
+    <div
+      class="absolute z-50 pointer-events-none bottom-10 left-10 text-[#2AB6C0] max-w-[400px]"
+    >
       <h1 class="text-2xl font-bold my-3 italic">GENERATE SCOPE</h1>
       <p class="text-justify indent-20">
         Aplikasi ini merupakan aplikasi berbasis web yang digunakan untuk
@@ -184,8 +191,15 @@ onMounted(() => {
       </p>
     </div>
     <div class="flex gap-4 absolute right-16">
-      <div class="flex flex-col items-center" v-for="(maker, i) in colorMarker" :key="i">
-        <div class="w-4 h-4 rounded-full border shadow-md" :style="{ backgroundColor: maker.hexColor }" />
+      <div
+        class="flex flex-col items-center"
+        v-for="(maker, i) in colorMarker"
+        :key="i"
+      >
+        <div
+          class="w-4 h-4 rounded-full border shadow-md"
+          :style="{ backgroundColor: maker.hexColor }"
+        />
         <span class="text-md text-slate-950">{{ maker.title }}</span>
       </div>
     </div>

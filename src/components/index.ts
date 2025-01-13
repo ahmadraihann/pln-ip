@@ -23,6 +23,7 @@ import FormAddNote from "@/components/action/components/Button/FormAddNote.vue";
 import Quantity from "@/components/action/components/Button/Quantity.vue";
 import Volume from "@/components/action/components/Button/Volume.vue";
 import Modal from "@/components/overlays/Modal.vue";
+import ButtonDots from "@/components/action/components/Button/ButtonDots.vue";
 
 export {
   Icon,
@@ -50,4 +51,5 @@ export {
   Quantity,
   Volume,
   Modal,
+  ButtonDots,
 };

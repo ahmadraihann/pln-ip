@@ -80,6 +80,7 @@ const toReport = () => {
         <div class="user-info">
           <p>User : superadmin@gmail.com</p>
         </div>
+        <button class="menu-button" @click="router.push('/')">Location</button>
         <button
           class="menu-button"
           :class="{ active: route.path.includes('create') }"
@@ -96,9 +97,9 @@ const toReport = () => {
         <div class="page-info">
           <p>{{ titleHeader }}</p>
         </div>
-        <div class="home-button" @click="toHome">
+        <!-- <div class="home-button" @click="toHome">
           <Icon name="home" class="text-white text-xl" />
-        </div>
+        </div> -->
         <div class="arrow-buttons">
           <button
             class="arrow-button back"

@@ -20,15 +20,27 @@ const { titleHeader, disabledNext, disabledBack, isFinish, isStepNavigation } =
 const breadcrumb = ref<BreadcrumbType[]>([]);
 
 const handleNext = () => {
-  router.push(
-    `/${route.params.id}/create/unit/${route.params.scope}/add-scope/${route.params.section}/result`
-  );
+  if (route.name === "main add scope squences section") {
+    router.push(
+      `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences/${route.params.section}/result`
+    );
+  } else {
+    router.push(
+      `/${route.params.id}/create/unit/${route.params.scope}/add-scope/${route.params.section}/result`
+    );
+  }
 };
 
 const handleBack = () => {
-  router.push(
-    `/${route.params.id}/create/unit/${route.params.scope}/add-scope`
-  );
+  if (route.name === "main add scope squences section") {
+    router.push(
+      `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences`
+    );
+  } else {
+    router.push(
+      `/${route.params.id}/create/unit/${route.params.scope}/add-scope`
+    );
+  }
 };
 
 onMounted(() => {

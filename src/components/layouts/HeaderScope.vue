@@ -32,6 +32,7 @@ const toCreate = () => {
         <div class="user-info">
           <p>User : superadmin@gmail.com</p>
         </div>
+        <button class="menu-button" @click="router.push('/')">Location</button>
         <button
           class="menu-button"
           :class="{ active: route.path.includes('create') }"

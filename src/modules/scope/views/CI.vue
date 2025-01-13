@@ -362,7 +362,7 @@ const reverseVideo = () => {
 
     if (prevIndex < 0) {
       router.push(
-        `/${route.params.id}/create/unit/${route.params.scope}/squences`
+        `/${route.params.id}/create/unit/${route.params.scope}/ci/scope`
       );
       return;
     }

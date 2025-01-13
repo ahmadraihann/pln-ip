@@ -35,6 +35,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  isCreate: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits([
@@ -106,7 +110,11 @@ defineSlots<{
           prefix_icon="search"
         />
       </div>
-      <CreateRow :label="labelCreate" @save="(e) => $emit('create', e)" />
+      <CreateRow
+        v-if="isCreate"
+        :label="labelCreate"
+        @save="(e) => $emit('create', e)"
+      />
     </div>
     <div class="v-table--body">
       <div class="v-table-wrapper">
@@ -206,5 +214,5 @@ defineSlots<{
               &:last-child
                 @apply rounded-r-lg
               .table-delete
-                @apply text-neutral-50 cursor-pointer
+                @apply text-neutral-50 cursor-pointer w-fit
 </style>

@@ -48,13 +48,25 @@ const {
 const breadcrumb = ref<BreadcrumbType[]>([]);
 
 const handleSave = () => {
-  router.push(`/${route.params.id}/create/unit/${route.params.scope}/result`);
+  if (route.name === "main add scope squences section result") {
+    router.push(
+      `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences/${route.params.section}/result/finish`
+    );
+  } else {
+    router.push(`/${route.params.id}/create/unit/${route.params.scope}/result`);
+  }
 };
 
 const handleBack = () => {
-  router.push(
-    `/${route.params.id}/create/unit/${route.params.scope}/add-scope/${route.params.section}`
-  );
+  if (route.name === "main add scope squences section result") {
+    router.push(
+      `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences/${route.params.section}`
+    );
+  } else {
+    router.push(
+      `/${route.params.id}/create/unit/${route.params.scope}/add-scope/${route.params.section}`
+    );
+  }
 };
 
 onMounted(() => {
