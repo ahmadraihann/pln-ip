@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { markerData } from '@/constants'
+import { markerData, colorMarker } from '@/constants'
 
 const router = useRouter();
 
@@ -42,9 +42,10 @@ const chartOptions = ref<Record<string, any>>({
   series: [
     {
       name: "Wilayah",
+      enableMouseTracking: false,
       states: {
         hover: {
-          color: "#FFB200",
+          enable: false
         },
       },
       dataLabels: {
@@ -181,6 +182,12 @@ onMounted(() => {
         sehingga memudahkan planner untuk memastikan ketepatan durasi dan
         budgeting.
       </p>
+    </div>
+    <div class="flex gap-4 absolute right-16">
+      <div class="flex flex-col items-center" v-for="(maker, i) in colorMarker" :key="i">
+        <div class="w-4 h-4 rounded-full border shadow-md" :style="{ backgroundColor: maker.hexColor }" />
+        <span class="text-md text-slate-950">{{ maker.title }}</span>
+      </div>
     </div>
   </div>
 </template>
